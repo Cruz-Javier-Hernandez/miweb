@@ -66,7 +66,7 @@ if (!isset($_SESSION["nomyape"])) {
     <!-- Metis Menu Plugin JavaScript -->
     <script src="<?php asset("bower_components/metisMenu/dist/metisMenu.min.js") ?>"></script>
     <!-- Custom Theme JavaScript -->
-    <script src="<?php asset("bower_components/js/sb-admin-2.js") ?>"></script>
+      <script src="<?php echo asset("bower_components/js/sb-admin-2.js").'?v='.time();?>"></script>
     <!--Código custom JS para alertify -->
     <script src="<?php asset("bower_components/alertify/alertify.min.js") ?>"></script>
     <!--Plugin para Imprimir -->

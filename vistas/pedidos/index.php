@@ -90,7 +90,7 @@ include("vistas/includes/menuSupVentas.php");
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-lg-12">
-				<h3 class="hstyle">GESTION DE PEDIDOS</h3>
+				<h3 class="hstyle">GESTION DE PEDIDOS </h3>
 				<a class="btn btn-primary pull-left " href="<?php echo url("admin"); ?>"><i class="fa fa-home" aria-hidden="true" placeholder="Home"> </i></a>
 				<a href="<?php url("pedidos/crear") ?>" id="btnNuevaVenta" class="btn btn-success"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> PEDIDO</a>
 			</div>
