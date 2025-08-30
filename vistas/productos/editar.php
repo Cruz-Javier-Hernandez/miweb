@@ -52,7 +52,7 @@ include("vistas/includes/menuSupABM.php");
 								</div>
 
 								<div class="row">
-									<div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
+									<div class="col-lg-2 col-md-4 col-sm-3 col-xs-6">
 										<label for="txtRubro">Rubros <strong style="color: red;">*</strong></label>
 										<select class="form-control" id="txtRubro" name="txtRubro" tabindex="3" style="color:#337ab7;" disabled>
 											<?php
@@ -68,11 +68,9 @@ include("vistas/includes/menuSupABM.php");
 											}
 											?>
 										</select>
-										<!--Aquí guardamos el ID de la genero para enviarlo al GeneroController -->
-										<!--Esto se hace con jquery dentro de codigo_base.js -->
 										<input name="txtIdRubro" id="txtIdRubro" value="<?php echo $producto->idRubro; ?>" type="hidden">
 									</div>
-									<div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
+									<div class="col-lg-2 col-md-4 col-sm-3 col-xs-6">
 										<label for="txtGenero">Géneros <strong style="color: red;">*</strong></label>
 										<select class="form-control" id="txtGenero" name="txtGenero" tabindex="4" style="color:#337ab7;" disabled>
 											<?php
@@ -88,8 +86,6 @@ include("vistas/includes/menuSupABM.php");
 											}
 											?>
 										</select>
-										<!--Aquí guardamos el ID de la genero para enviarlo al GeneroController -->
-										<!--Esto se hace con jquery dentro de codigo_base.js -->
 										<input name="txtIdGenero" id="txtIdGenero" value="<?php echo $producto->idGenero; ?>" type="hidden">
 									</div>
 									<div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
@@ -108,8 +104,6 @@ include("vistas/includes/menuSupABM.php");
 											}
 											?>
 										</select>
-										<!--Aquí guardamos el ID de la categoria para enviarlo al ProductoController -->
-										<!--Esto se hace con jquery dentro de codigo_base.js -->
 										<input name="txtIdCategoria" id="txtIdCategoria" value="<?php echo $producto->idCategoria; ?>" type="hidden">
 									</div>
 									<div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
@@ -145,35 +139,31 @@ include("vistas/includes/menuSupABM.php");
 												<input value="<?php echo $producto->precioVenta ?>" name="txtPrecioVenta" type="number" step="any" min="1" class="form-control" required tabindex="9">
 											</div>
 										</div>
-										<div class="col-lg-2 col-md-3 col-sm-3 col-xs-6">
+										<!-- <div class="col-lg-2 col-md-3 col-sm-3 col-xs-6">
 											<label for="">P Compra <small> (Por unidad)</small> </label>
 											<div class="input-group">
 												<span class="input-group-addon"><?php echo $parametro->moneda; ?></span>
 												<input value="<?php echo $producto->precioCompraunidad ?>" name="txtprecioCompraunidad" type="number" step="any" class="form-control" required tabindex="9">
 											</div>
-										</div>
+										</div> -->
 									</div>
 								</div>
 
 								<hr>
 
 								<div class="row">
-									<div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
+									<div class="col-lg-1 col-md-4 col-sm-6 col-xs-6">
 										<?php
 										$arrayStockUni = [];
 										$existencias = Existencia::all();
 
 										foreach ($existencias as $existencia) {
 											if ($existencia->idProducto == $producto->id && $existencia->Activo == 1) {
-												//$arrayStockUni[]= [$existencia->talle, $existencia->stock];
 												$arrayStockUni[] = [$existencia->id, $existencia->talle, $existencia->color, $existencia->stock];
-												$cantidad += $existencia->stock; //sumo el stock total
-												//$arrayStockUni[] = $existencia->stock;//para guardar stock unitario 
-												$cantIdProd; //cuantas veces se repite el IdProducto
+												$cantidad += $existencia->stock;
 											}
 										}
 										$arrayStockOrdenado = [];
-										//funcion que ordena por dos columnas	   
 										function array_msort($array, $cols)
 										{
 											$colarr = array();
@@ -201,7 +191,6 @@ include("vistas/includes/menuSupABM.php");
 										}
 										$arrayOrder = array_msort($arrayStockUni, array('1' => SORT_ASC, '2' => SORT_ASC));
 										$arrayStockOrdenado = array_values($arrayOrder);
-										//var_dump($arrayStockOrdenado);
 										?>
 										<label for="">Stock Total</label>
 										<input name="txtStock" id="txtStock" type="number" class="form-control" value="<?php echo $cantidad ?>" tabindex="10" disabled>
@@ -215,8 +204,7 @@ include("vistas/includes/menuSupABM.php");
 										<br>
 										<button id="btnActualizarStock" name="btnActualizarStock" type="button" class="btn btn-primary" tabindex="11">Talles y Colores</button>
 									</div>
-									<div class="col-lg-2 col-md-4 col-sm-6 col-xs-12">
-
+									<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
 										<label>Foto o imagen del producto</label><br>
 										<div class="file is-small has-name">
 											<label class="file-label">
@@ -228,6 +216,114 @@ include("vistas/includes/menuSupABM.php");
 											</label>
 										</div>
 									</div>
+									<!-- Espacio para generar código de barra -->
+									<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="border: double;">
+										<label for="txtCodigoBarra">Código de Barra</label>
+										<div class="input-group">
+											<input type="text" id="txtCodigoBarra" name="txtCodigoBarra" class="form-control" value="<?php echo  $producto->codigo_barra; ?>" tabindex="14" maxlength="13" pattern="[0-9]{8,13}" placeholder="EAN-13">
+											<span class="input-group-btn">
+												<button type="button" class="btn btn-info" id="btnGenerarBarra" tabindex="15">Generar</button>
+												<button type="button" class="btn btn-warning" id="btnDescargarPDF" tabindex="16">Descargar PDF</button>
+											</span>
+										</div>
+										<div id="barcodePreview" style="margin-top:10px;"></div>
+									</div>
+									<!-- jsPDF para descargar el código de barra en PDF -->
+									<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+									<script>
+										// Mostrar el código de barra al cargar la página si existe
+										document.addEventListener('DOMContentLoaded', function() {
+											var codigo = document.getElementById('txtCodigoBarra').value;
+											if (codigo.length >= 8 && codigo.length <= 13 && /^\d+$/.test(codigo)) {
+												document.getElementById('barcodePreview').innerHTML = '<svg id="svgBarcode"></svg>';
+												JsBarcode("#svgBarcode", codigo, {
+													format: "EAN13",
+													width: 2,
+													height: 60,
+													displayValue: true
+												});
+										 }
+										});
+
+										document.getElementById('btnGenerarBarra').addEventListener('click', function() {
+											var codigo = document.getElementById('txtCodigoBarra').value;
+											if (codigo.length >= 8 && codigo.length <= 13 && /^\d+$/.test(codigo)) {
+												document.getElementById('barcodePreview').innerHTML = '<svg id="svgBarcode"></svg>';
+												JsBarcode("#svgBarcode", codigo, {
+													format: "EAN13",
+													width: 2,
+													height: 60,
+													displayValue: true
+												});
+											} else {
+												document.getElementById('barcodePreview').innerHTML = '<span style="color:red;">Ingrese un código numérico válido (8-13 dígitos).</span>';
+											}
+										});
+
+										document.getElementById('btnDescargarPDF').addEventListener('click', function() {
+											var svg = document.getElementById('svgBarcode');
+											var stockTotal = parseInt(document.getElementById('txtStock').value) || 1;
+											if (!svg) {
+												alert('Primero genere el código de barra.');
+												return;
+											}
+
+											var serializer = new XMLSerializer();
+											var svgString = serializer.serializeToString(svg);
+											var canvas = document.createElement('canvas');
+											var ctx = canvas.getContext('2d');
+											var img = new Image();
+
+											img.onload = function() {
+												canvas.width = img.width;
+												canvas.height = img.height;
+												ctx.drawImage(img, 0, 0);
+												var imgData = canvas.toDataURL('image/png');
+												const { jsPDF } = window.jspdf;
+												var pdf = new jsPDF();
+
+												// --- CONFIGURACIÓN DE LAS COLUMNAS ---
+												var cols = 3; // número de columnas
+												var colWidth = 50; // ancho de cada código (ajustar según necesidad)
+												var rowHeight = 20; // alto de cada código
+												var marginX = 15; // margen izquierdo
+												var marginY = 20; // margen superior
+												var spacingX = 8; // espacio horizontal entre columnas
+												var spacingY = 15; // espacio vertical entre filas
+
+												var x = marginX;
+												var y = marginY;
+												var col = 0;
+
+												for (var i = 0; i < stockTotal; i++) {
+													pdf.addImage(imgData, 'PNG', x, y, colWidth, rowHeight);
+
+													// Avanzar a la siguiente columna
+													col++;
+													if (col < cols) {
+														x += colWidth + spacingX;
+													} else {
+														// Reiniciar a la primera columna y bajar una fila
+														col = 0;
+														x = marginX;
+														y += rowHeight + spacingY;
+													}
+
+													// Si ya no cabe en la página → nueva página
+													if (y + rowHeight > pdf.internal.pageSize.getHeight() - marginY) {
+														pdf.addPage();
+														x = marginX;
+														y = marginY;
+														col = 0;
+													}
+												}
+
+												pdf.save('codigo_barra.pdf');
+											};
+
+											img.src = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgString)));
+										});
+									</script>
 
 									<div class="col-lg-12 text-center">
 										<div id="printCodeBar" style="display:none;">
@@ -245,6 +341,24 @@ include("vistas/includes/menuSupABM.php");
 						</div>
 					</div>
 			</form>
+			<!-- Librería JsBarcode para generar código de barras -->
+			<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+			<script>
+				$('#btnGenerarBarra').on('click', function() {
+					var codigo = $('#txtCodigoBarra').val();
+					if (codigo.length >= 8 && codigo.length <= 13 && /^\d+$/.test(codigo)) {
+						$('#barcodePreview').html('<svg id="svgBarcode"></svg>');
+						JsBarcode("#svgBarcode", codigo, {
+							format: "EAN13",
+							width: 2,
+							height: 60,
+							displayValue: true
+						});
+					} else {
+						$('#barcodePreview').html('<span style="color:red;">Ingrese un código numérico válido (8-13 dígitos).</span>');
+					}
+				});
+			</script>
 		</div>
 	</div>
 </div>
@@ -385,7 +499,7 @@ include("vistas/includes/menuSupABM.php");
 	idRubro = $('select#txtRubro').val();
 	idCategoria = $('select#txtCategoria').val();
 </script>
-<script src="<?php asset("bower_components/js/codigo_productos_editar.js") ?>"></script>
+<script src="<?php echo asset("bower_components/js/codigo_productos_editar.js") . '?v=' . time(); ?>"></script>
 <?php
 include("vistas/includes/menuInferior.php");
 ?>
