@@ -148,6 +148,7 @@ class ProductoController
 		$producto->precioCompra 		= input("txtPrecioCompra");
 		$producto->precioVenta 			= input("txtPrecioVenta");
 		$producto->precioCompraunidad 	= input("txtprecioCompraunidad");
+		$producto->codigo_barra 		= input("txtCodigoBarra");
 		// $producto->Actualizado_Por 		= $_SESSION["privilegio"];
 		$producto->formato_codigo 		= input("formatoCodeBar"); //nuevo codigo de barras   
 		$producto->imagen 				= $ruta;

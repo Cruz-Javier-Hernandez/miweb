@@ -10,8 +10,8 @@ class FacturasController
 	//ruta principal retorna el listado de Facturases
 	public function index()
 	{
-        $cantidad_pagos = 1;  
-		$data = Facturas::all();
+		$cantidad_pagos = 1;
+		$data = Facturas::where("Activo", 1);
 		return Vista::crear("facturas.index", array(
 			"facturas" => $data,
 			"cantidad_pagos" => $cantidad_pagos
@@ -61,8 +61,8 @@ class FacturasController
 		$Facturas = Facturas::find(input("id"));
 		if ($Facturas->eliminar()) {
 			redireccionar("/facturas");
-		}else{
-			
+		} else {
+
 			$Facturas->Activo		= 0;
 			$Facturas->guardar();
 			redireccionar("/facturas");
@@ -120,13 +120,14 @@ class FacturasController
 
 	public function cantidad()
 	{
-		$Facturas = Facturas::all();
+		$Facturas = Facturas::where("Activo", 1);
 		$cantidad = count($Facturas);
 		echo $cantidad;
 	}
-	public function cantidad_pagos(){
-        $facturas= Facturas::all();
-        $cantidad_pagos = count($facturas);        
-        echo $cantidad_pagos;    
-    }
+	public function cantidad_pagos()
+	{
+		$facturas = Facturas::where("Activo", 1);
+		$cantidad_pagos = count($facturas);
+		echo $cantidad_pagos;
+	}
 }
